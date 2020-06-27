@@ -1,17 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React,{useState} from 'react';
+import {render} from "react-dom"
+import FacebookLogin from 'react-facebook-login';
+ 
+const ReactFacebookLogin =()=> {
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  const [accessToken, setAccessToken] = useState("");
+  const componentClicked = data => {
+    console.log("data", data)
+  }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+const responseFacebook = response => {
+  console.log(response);
+  setAccessToken(response.accessToken)
+}
+
+ 
+  return (  <div>React Facebook Login
+
+    <br />
+     User Short-Lived Access Token :
+     <br />
+    {accessToken}
+
+    <br />
+  <FacebookLogin
+    appId="310277730374099"
+    autoLoad={true}
+    fields="name,email,picture"
+    onClick={componentClicked}
+    callback={responseFacebook} />
+
+    </div>
+  )
+ };
+  
+
+
+render(<ReactFacebookLogin />, document.querySelector(("#root")));
